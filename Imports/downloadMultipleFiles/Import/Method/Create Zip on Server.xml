@@ -1,0 +1,78 @@
+﻿<AML>
+ <Item type="Method" id="8B0B1A6BD0CA40D2B625D76532BAD1E5" action="add">
+  <execution_allowed_to keyed_name="World" type="Identity">A73B655731924CD0B027E4F4D5FCC0A9</execution_allowed_to>
+  <method_code><![CDATA[/*
+ *  There is a known issue when trying to download multipe files concurrently
+ *  where only one file is downloaded.
+ *
+ *  To work around this issue, we will instead:
+ *      1. Download all files to a known folder on the server
+ *      2. Create a zip archive of this folder
+ *      3. Upload that zip archive to the Vault
+ *      4. Download that zip archive to the Client's machine
+ *      5. Delete the zip archive from the vault
+ *      6. Delete the zip archive from the server
+ *      7. Delete the folder from the server
+ */
+
+Innovator inn = this.getInnovator();
+
+// Make sure some ids were passed in
+if (String.IsNullOrEmpty(this.getProperty("file_ids")))
+{
+    return inn.newError("No Files specified to download.");
+}
+
+// The directory to download to
+string folderPath = @"C:\Temp\Aras\MultipleFileDownload\" + inn.getUserID();
+string filePath = folderPath + "\\Files";
+string zipPath = folderPath + "\\Zip";
+
+// Create folder for this action
+if (System.IO.Directory.Exists(folderPath))
+{
+    System.IO.Directory.Delete(folderPath, true);
+}
+System.IO.DirectoryInfo di = System.IO.Directory.CreateDirectory(filePath);
+System.IO.DirectoryInfo zdi = System.IO.Directory.CreateDirectory(zipPath);
+
+// Get a collection of the files we will want to download
+Item files = inn.newItem("File", "get");
+files.setAttribute("idlist", this.getProperty("file_ids"));
+files = files.apply();
+if (files.isError())
+{
+    return files;
+}
+
+// Create a checkout manager to download all of the files to the server
+Aras.IOME.CheckoutManager cm = new Aras.IOME.CheckoutManager(files);
+cm.DownloadFiles(filePath, 1);
+
+// Once the files are downloaded to the server, create a zip file
+const string zipName = "AllFiles.zip";
+string fullZipPath = String.Format("{0}\\{1}", zipPath, zipName);
+try
+{
+    if (System.IO.File.Exists(fullZipPath))
+    {
+        System.IO.File.Delete(fullZipPath);
+    }
+    System.IO.Compression.ZipFile.CreateFromDirectory(filePath, fullZipPath);
+}
+catch (InvalidDataException)
+{
+    return inn.newError("Could not create .zip archive");
+}
+
+// Upload this .zip to Innovator
+Item zipFile = inn.newItem("File", "add");
+zipFile.setProperty("filename", zipName);
+zipFile.attachPhysicalFile(fullZipPath);
+zipFile = zipFile.apply();
+
+return zipFile;]]></method_code>
+  <method_type>C#</method_type>
+  <name>Create Zip on Server</name>
+ </Item>
+</AML>

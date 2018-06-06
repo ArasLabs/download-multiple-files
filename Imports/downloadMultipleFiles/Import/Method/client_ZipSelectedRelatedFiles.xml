@@ -1,0 +1,53 @@
+﻿<AML>
+ <Item type="Method" id="71D6D498456D4CD39911788CD8BA7254" action="add">
+  <execution_allowed_to keyed_name="World" type="Identity">A73B655731924CD0B027E4F4D5FCC0A9</execution_allowed_to>
+  <method_code><![CDATA[// Get all of the selected files
+var relationshipTab = parent.findCurrentRelationshipsTab();
+var selectedItemIds = relationshipTab.grid.getSelectedItemIds();
+
+// When actions are called from the Relationships Grid, they are called on each
+// selected item. To make sure we only download the files once, we want to run
+// this action only on the last item selected
+var lastSelectedId = selectedItemIds[selectedItemIds.length - 1];
+var thisId = inDom.getAttribute("id");
+if (thisId != lastSelectedId)
+{
+    return;
+}
+
+// Get the related File ID
+var i, fileIds = [];
+for (i = 0; i < selectedItemIds.length; i++)
+{
+    fileIds.push(relationshipTab.getRelationshipProperty(selectedItemIds[i], "related_id"));
+}
+
+// Create a zip on the server and upload it as a new file item to the vault
+var res = aras.applyMethod("Create Zip on Server", "<file_ids>" + fileIds.join(',') + "</file_ids>");
+if (!res)
+{
+    alert("Error when zipping files.");
+    return;
+}
+
+dom = top.aras.createXMLDocument();
+dom.loadXML(res);
+// Download the uploaded zip to the user's working directory
+var fileItem = aras.getItemById("File", dom.firstChild.getAttribute("id"));
+top.aras.downloadFile(fileItem, "AllFiles.zip"); // TODO: Make this name relevant to the item this is called from
+
+// Lastly, delete the file from the server
+// NOTE: We're doing this in a timeout because otherwise, the file is deleted
+//       from the server before the client has a chance to download it.
+setTimeout(function(){
+    var res = aras.applyMethod("Delete Zip from Server", "<id>" + dom.firstChild.getAttribute("id") + "</id>");
+    if (!res)
+    {
+        alert("Error cleaning up files");
+    }
+}, 3000);
+return;]]></method_code>
+  <method_type>JavaScript</method_type>
+  <name>client_ZipSelectedRelatedFiles</name>
+ </Item>
+</AML>

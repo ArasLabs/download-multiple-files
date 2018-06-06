@@ -1,0 +1,15 @@
+﻿<AML>
+ <Item type="Action" id="8B4A026560084A06946FFFF515556225" action="add">
+  <item_query />
+  <label xml:lang="en">Download Selected Files</label>
+  <location>client</location>
+  <method keyed_name="client_ZipSelectedRelatedFiles" type="Method">
+   <Item type="Method" action="get" select="id">
+    <name>client_ZipSelectedRelatedFiles</name>
+   </Item>
+  </method>
+  <target>none</target>
+  <type>item</type>
+  <name>Download Selected Files (Relationships Grid)</name>
+ </Item>
+</AML>

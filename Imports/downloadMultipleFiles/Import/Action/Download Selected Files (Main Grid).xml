@@ -1,0 +1,20 @@
+﻿<AML>
+ <Item type="Action" id="8078B1B5FB6347F0AB3688AD59E184B9" action="add">
+  <item_query>&lt;Item type="{@type}" id="{@id}" levels= "1" action="get" /&gt;</item_query>
+  <label xml:lang="en">Download Selected Files</label>
+  <location>client</location>
+  <method keyed_name="PE_GetSelectedItems" type="Method">
+   <Item type="Method" action="get" select="id">
+    <name>PE_GetSelectedItems</name>
+   </Item>
+  </method>
+  <on_complete keyed_name="client_ZipAllSelectedFiles" type="Method">
+   <Item type="Method" action="get" select="id">
+    <name>client_ZipAllSelectedFiles</name>
+   </Item>
+  </on_complete>
+  <target>none</target>
+  <type>item</type>
+  <name>Download Selected Files (Main Grid)</name>
+ </Item>
+</AML>

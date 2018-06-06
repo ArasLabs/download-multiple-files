@@ -1,0 +1,46 @@
+﻿<AML>
+ <Item type="Method" id="ABAAEA740355466996C6F0287B18D887" action="add">
+  <execution_allowed_to keyed_name="World" type="Identity">A73B655731924CD0B027E4F4D5FCC0A9</execution_allowed_to>
+  <method_code><![CDATA[debugger;
+// Check if any files are selected
+if (!inArgs || !inArgs.results || !inArgs.results.getItemByIndex(0))
+{
+    return;
+}
+
+var i, numFiles, fileIds = [];
+for (i = 0, numFiles = inArgs.results.getItemCount(); i< numFiles; i++)
+{
+    fileIds.push(inArgs.results.getItemByIndex(i).getAttribute("id"));
+}
+
+var res = aras.applyMethod("Create Zip on Server", "<file_ids>" + fileIds.join(',') + "</file_ids>");
+
+if (!res) {
+    alert("Error when zipping files.");
+    // TODO: Cleanup
+    return;
+}
+
+dom = top.aras.createXMLDocument();
+dom.loadXML(res);
+// Download the uploaded zip to the user's working directory
+var fileItem = aras.getItemById("File", dom.firstChild.getAttribute("id"));
+top.aras.downloadFile(fileItem, "AllFiles.zip"); // TODO: Make this name relevant to the item this is called from
+
+// Lastly, delete the file from the server
+// NOTE: We're doing this in a timeout because otherwise, the file is deleted from the server before the client has a chance to download it.
+//       The top.aras.downloadFile method does not allow for a promise to be called form it which would also solve this issue.
+setTimeout(function(){
+    var res = aras.applyMethod("Delete Zip from Server", "<id>" + dom.firstChild.getAttribute("id") + "</id>");
+    if (!res)
+    {
+        alert("Error cleaning up files");
+    } 
+}, 3000);
+
+return;]]></method_code>
+  <method_type>JavaScript</method_type>
+  <name>client_ZipAllSelectedFiles</name>
+ </Item>
+</AML>
