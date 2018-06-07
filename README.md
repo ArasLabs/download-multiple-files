@@ -36,8 +36,14 @@ _Note: If you are using a version of Aras Innovator older than 11.0 SP7, please 
 
 ### Install Steps
 
-Use the following steps to create a client-side (JavaScript) method that will be called from
-onSearchDialog for a property of type Item.
+#### Codetree Installation
+
+**NOTE: This code tree patch makes modifications to the Innovator\Server\method-config.xml file. If you have previously made modifications to this file, you will want to manually copy over the changes rather than following the steps below.**
+
+1. Backup your code tree and store the archive in a safe place.
+2. Copy the `Innovator` folder in your local `..\download-multiple-files\` folder
+3. Paste this to the root of your install directory
+* By default, you root directory is `C:\Program Files\Aras\Innovator\`
 
 #### Database Installation
 1. Backup your database and store the BAK file in a safe place.
