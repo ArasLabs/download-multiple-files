@@ -2,7 +2,7 @@
 
 In an out-of-the-box instance of Aras Innovator, it is only possible to download one file at a time. Due to the implementation of the download method, it is also not possible to use concurrent executions of the **aras.downloadFile** method to download more than one file at a time.
 
-This project contains two sample methods that demonstrate a technique to these issues to allow your users to download multiple files at once. Rather than downloading all of the files individually, these methods create a .zip file on the server and upload that .zip to the Aras Vault, so that all of the files can be downloaded at once in one .zip file.
+This project contains two sample methods that demonstrate a technique to allow your users to download multiple files at once. Rather than downloading all of the files individually, these methods create a .zip file on the server and upload that .zip to the Aras Vault, so that all of the files can be downloaded at once in one .zip file.
 
 ## History
 
