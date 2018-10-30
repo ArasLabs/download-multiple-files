@@ -741,6 +741,84 @@ namespace $(pkgname)
 }
 ]]>
 	</Template>
+	<Template name="CSharp:Aras.Server.Core.GraphNavigation.PropertyGetter" line_number_offset="21">
+			<![CDATA[
+	using System;
+	using System.IO;
+	using System.Xml;
+	using System.Text;
+	using System.Collections;
+	using System.Collections.Generic;
+	using System.Data;
+	using System.Linq;
+	using System.Net;
+	using System.Globalization;
+	using Aras.IOM;
+	using Aras.Server.Core;
+	using Aras.Server.Core.GraphNavigation;
+	using Aras.I18NUtils;
+
+	namespace $(pkgname)
+	{
+		public class $(clsname): PropertyGetterBase
+		{
+			$(MethodCode)
+		}
+	}
+	]]>
+	</Template>
+	<Template name="CSharp:Aras.Server.Core.GraphNavigation.NodeValuesGetter" line_number_offset="21">
+			<![CDATA[
+	using System;
+	using System.IO;
+	using System.Xml;
+	using System.Text;
+	using System.Collections;
+	using System.Collections.Generic;
+	using System.Data;
+	using System.Linq;
+	using System.Net;
+	using System.Globalization;
+	using Aras.IOM;
+	using Aras.Server.Core;
+	using Aras.Server.Core.GraphNavigation;
+	using Aras.I18NUtils;
+
+	namespace $(pkgname)
+	{
+		public class $(clsname): NodePropertiesGetterBase
+		{
+			$(MethodCode)
+		}
+	}
+	]]>
+	</Template>
+	<Template name="CSharp:Aras.Server.Core.GraphNavigation.KeyStringGetter" line_number_offset="21">
+			<![CDATA[
+	using System;
+	using System.IO;
+	using System.Xml;
+	using System.Text;
+	using System.Collections;
+	using System.Collections.Generic;
+	using System.Data;
+	using System.Linq;
+	using System.Net;
+	using System.Globalization;
+	using Aras.IOM;
+	using Aras.Server.Core;
+	using Aras.Server.Core.GraphNavigation;
+	using Aras.I18NUtils;
+
+	namespace $(pkgname)
+	{
+		public class $(clsname): KeyGetterBase
+		{
+			$(MethodCode)
+		}
+	}
+	]]>
+	</Template>
 	<Template name="CSharp:Aras.Server.Core.Configurator" line_number_offset="21">
 			<![CDATA[
 	using System;
@@ -789,7 +867,7 @@ namespace $(pkgname)
 		public class $(clsname): GetScopeStructureOutputBase
 		{
 			$(MethodCode)
-			public $(clsname)(CallContext callContext) : base(callContext)
+			public $(clsname)(IServerConnection iomConnection) : base(iomConnection)
 			{
 			}
 		}
