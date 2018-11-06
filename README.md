@@ -6,17 +6,17 @@ This project contains two sample methods that demonstrate a technique to allow y
 
 ## History
 
-This project and the following release notes have been migrated from the old Aras Projects page.
-
 Release | Notes
 --------|--------
-[v1](https://github.com/ArasLabs/download-multiple-files/releases/tag/v1) | Initial Release
+[v1.1.0](https://github.com/ArasLabs/download-multiple-files/releases/tag/v1.1.0) | Confirmed support for Aras 11.0 SP15.
+[v1.0.0](https://github.com/ArasLabs/download-multiple-files/releases/tag/v1) | Initial Release
 
 #### Supported Aras Versions
 
 Project | Aras
 --------|------
-[v1](https://github.com/ArasLabs/download-multiple-files/releases/tag/v1) | 11.0 SP12
+[v1.1.0](https://github.com/ArasLabs/download-multiple-files/releases/tag/v1.1.0) | 11.0 SP15, 11.0 SP14, 11.0 SP12
+[v1.0.0](https://github.com/ArasLabs/download-multiple-files/releases/tag/v1) | 11.0 SP12
 
 _While this project was built and tested using 11.0 SP12, it should work with any service pack of 11.0._
 
@@ -31,8 +31,8 @@ _Note: If you are using a version of Aras Innovator older than 11.0 SP7, please 
 
 1. Aras Innovator installed
 2. Any version of the Product Engineering solution installed (11.0R1+)
-2. Aras Package Import tool
-3. **Download Multiple Files** import package
+3. Aras Package Import tool
+4. **Download Multiple Files** import package
 
 ### Install Steps
 
